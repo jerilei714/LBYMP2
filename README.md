@@ -2,9 +2,7 @@
 
 This repository contains a program written in C and x86-64 assembly that calculates the acceleration of a vehicle using the formula:
 
-\[
-a = \frac{V_f - V_i}{T}
-\]
+`a = (Vf - Vi) / T`
 
 where:
 - \(V_f\): Final velocity (km/h)
@@ -65,5 +63,5 @@ Below is a screenshot of the program's output, showing both correctness checks f
 ---
 
 ## Authors
-Jeri Lei Concepcion
+Jeri Lei Concepcion and 
 Kyla Nicole G. Manaois
