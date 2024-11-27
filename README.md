@@ -1,4 +1,4 @@
-# Acceleration Calculator (C and x86-64 Assembly)
+# Acceleration Calculator (x86-64-to-C Assembly)
 
 This repository contains a program written in C and x86-64 assembly that calculates the acceleration of a vehicle using the formula:
 
