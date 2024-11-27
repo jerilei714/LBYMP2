@@ -34,7 +34,7 @@ Below is a screenshot of the program's output, showing both correctness checks f
 ### Analysis
 - The execution time increases linearly with the size of the input dataset.
 - For small datasets (10 and 100 rows), the program's execution time is effectively negligible due to efficient computation.
-- For larger datasets (1,000 and 5,000 rows), the increase in execution time is minimal, reflecting the program's optimized implementation in both C and x86-64 assembly.
+- For larger datasets (1,000 and 5,000 rows), the increase in execution time is minimal, which shows the program's optimized implementation in both C and x86-64 assembly.
 - The combination of C and assembly ensures low-level control and performance, making the program highly suitable for tasks requiring speed and efficiency.
 
 ---
