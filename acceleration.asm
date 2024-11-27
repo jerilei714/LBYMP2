@@ -7,18 +7,18 @@ threshold: dd 0.1               ; Minimum threshold for small accelerations
 
 section .text
 compute_acceleration:
-    push rbp                    ; Save the base pointer (function prologue)
-    mov rbp, rsp                ; Set up stack frame
+    push rbp                   
+    mov rbp, rsp                
     sub rsp, 32                 ; Allocate 32 bytes for shadow space
 
     xor r9, r9                  ; Initialize row index (R9 = 0)
 
 .loop:
-    cmp r9, rdx                 ; Compare row index with number of rows (RDX)
-    jge .done                   ; If row index >= num_rows, jump to done
+    cmp r9, rdx                 
+    jge .done                   
 
-    mov r10, r9                 ; Copy row index to R10
-    imul r10, r10, 12           ; R10 = row index * 12 (size of one row in bytes)
+    mov r10, r9                 
+    imul r10, r10, 12           
 
     ; Load values into xmm registers
     movss xmm0, [rcx + r10]        ; Load Vi (initial velocity) into xmm0
@@ -30,39 +30,37 @@ compute_acceleration:
     mulss xmm1, [kmh_to_ms]        ; Vf * 0.27777778 (in m/s)
 
     ; Calculate acceleration: (Vf - Vi) / T
-    subss xmm1, xmm0               ; Vf - Vi
-    divss xmm1, xmm2               ; (Vf - Vi) / T (acceleration)
+    subss xmm1, xmm0               
+    divss xmm1, xmm2               
 
-    ; Round the result
-    addss xmm1, dword [round]      ; Add 0.5 for rounding
+    addss xmm1, dword [round]      
 
-    ; Handle small accelerations (below threshold)
     movss xmm3, [threshold]       ; Load threshold value (e.g., 0.1)
     comiss xmm1, xmm3             ; Compare acceleration with threshold
     jl .apply_threshold           ; If less than threshold, apply threshold
     jmp .check_negative           ; Otherwise, proceed to check for negativity
 
 .apply_threshold:
-    movss xmm1, xmm3              ; Set acceleration to threshold value (e.g., 0.1)
+    movss xmm1, xmm3              
 
 .check_negative:
-    xorps xmm3, xmm3              ; Clear xmm3 (set to zero)
+    xorps xmm3, xmm3              
     comiss xmm1, xmm3             ; Compare acceleration (xmm1) with zero
     jb .set_to_zero               ; Jump if xmm1 < 0 (negative value)
     jmp .store_result             ; Otherwise, skip to store result
 
 .set_to_zero:
-    movss xmm1, xmm3              ; Set acceleration to zero
+    movss xmm1, xmm3              
 
 .store_result:
     ; Convert to integer (rounded)
-    cvttss2si eax, xmm1            ; Convert the result to an integer
+    cvttss2si eax, xmm1           
     mov [r8 + r9*4], eax           ; Store result in the result array
 
-    inc r9                         ; Increment row index
-    jmp .loop                      ; Repeat for the next row
+    inc r9                         
+    jmp .loop                     
 
 .done:
-    add rsp, 32                    ; Restore the stack
-    pop rbp                        ; Restore base pointer
-    ret                            ; Return to caller
+    add rsp, 32                    
+    pop rbp                        
+    ret                          
