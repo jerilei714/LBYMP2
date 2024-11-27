@@ -22,6 +22,7 @@ Below is a screenshot of the program's output, showing both correctness checks f
 ---
 
 ## Execution Time and Performance Analysis
+- We chose to limit the input size to 5,000 instead of 10,000 due to hardware constraints.
 
 ### Execution Time
 | Number of Rows | Average Execution Time |
